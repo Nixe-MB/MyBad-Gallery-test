@@ -1,0 +1,53 @@
+/* ============================================================================
+   prints.css  -  the polaroid prints: frames, tape, paper wear, hearts
+   Every print is re-rolled at random (js/skins.js sets the --variables below).
+   ============================================================================ */
+.grid{column-width:calc(var(--cw,16rem)*var(--cm));column-gap:var(--cg,2rem);padding-top:.6rem;margin-bottom:-1rem}
+.print{
+  position:relative;break-inside:avoid;-webkit-column-break-inside:avoid;margin:0 0 2rem;padding-top:14px;
+  opacity:0;translate:0 34px;
+  transition:opacity .7s ease,translate .7s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i,0)*70ms);
+}
+.print.in{opacity:1;translate:0 0}
+
+.frame{
+  position:relative;display:block;width:100%;margin:0;border:0;padding:var(--pd,.65rem) var(--pd,.65rem) .2rem;
+  background:var(--tex),var(--pc);color:#2c2a25;font:inherit;text-align:left;cursor:zoom-in;-webkit-tap-highlight-color:transparent;
+  transform:none;rotate:var(--r,0deg);scale:var(--sc,1);translate:0 0;
+  box-shadow:0 1px 1px rgba(0,0,0,.14),0 10px 18px -9px var(--shadow);
+  transition:rotate .7s var(--ease),scale .7s var(--ease),translate .7s var(--ease),box-shadow .7s var(--ease);
+}
+.frame:focus-visible{rotate:0deg;scale:calc(var(--sc,1)*1.035);translate:0 -9px;box-shadow:0 1px 1px rgba(0,0,0,.14),0 24px 30px -12px var(--shadow)}
+@media (hover:hover){.frame:hover{rotate:0deg;scale:calc(var(--sc,1)*1.035);translate:0 -9px;box-shadow:0 1px 1px rgba(0,0,0,.14),0 24px 30px -12px var(--shadow)}.frame:hover::after{background-position:-60% 0}}
+.frame.tilt{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}  /* mouse tilt, eased by js/gallery.js */
+.frame img{display:block;width:100%;height:auto;background:var(--imgbg)}
+.frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.4) 50%,transparent 62%) no-repeat;background-size:260% 100%;background-position:150% 0;transition:background-position 1s var(--ease)}
+.cap{display:block;padding:.55rem .15rem .6rem;color:var(--capc);overflow-wrap:anywhere;font-family:var(--cf,var(--hand));font-size:var(--cz,1.4rem);font-weight:500;line-height:1.15;transform:rotate(var(--cr,0deg))}
+
+/* ---------- tape and stickers (t0 is the default yellow tape) ---------- */
+.frame::before{content:"";position:absolute;top:-13px;left:calc(50% - var(--tw,76px)/2);width:var(--tw,76px);height:24px;background:var(--tape);transform:rotate(var(--tr,-3deg));box-shadow:0 1px 2px rgba(0,0,0,.15);z-index:1}
+.frame.t1::before{background:repeating-linear-gradient(45deg,rgba(232,150,165,.82) 0 6px,rgba(255,255,255,.6) 6px 12px)}
+.frame.t2::before{background:repeating-linear-gradient(90deg,rgba(120,170,215,.8) 0 8px,rgba(255,255,255,.55) 8px 11px)}
+.frame.t3::before{background:radial-gradient(rgba(255,255,255,.75) 2px,transparent 2.5px) 0 0/9px 9px,rgba(140,190,150,.8)}
+.frame.t4::before{width:16px;height:16px;left:calc(50% - 8px);top:-8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff9a8a,#b3261e 70%);box-shadow:0 3px 4px rgba(0,0,0,.35);transform:none}
+.frame.t5::before{top:-8px;left:-22px;width:86px;transform:rotate(-38deg)}
+.frame.t6::before{width:15px;height:38px;left:68%;top:-16px;border:2.5px solid #9aa0a6;border-radius:9px;background:none;box-shadow:none;transform:rotate(8deg)}
+.frame.t7::before{width:58px;height:22px;left:calc(50% - 29px);top:-10px;background:#f3e3a3;border:1px dashed rgba(60,45,20,.35);border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.25);transform:rotate(var(--tr,0deg))}   /* paper label stuck over the top edge */
+
+/* ---------- frame styles (v0 is the classic white border) ---------- */
+.frame.v1 .cap{padding-bottom:1.9rem;font-size:1.55rem}                                   /* thick polaroid */
+.frame.v2{--pc:var(--film);--capc:#e9e2cf;--tex:radial-gradient(circle,rgba(255,255,255,.08) 1px,transparent 1.6px) 0 0/6px 6px,var(--grain)}   /* film */
+.frame.v3{--pc:#b99b72;--capc:#3b2c17;--tex:repeating-linear-gradient(95deg,rgba(80,50,20,.09) 0 2px,transparent 2px 5px),var(--grain)}          /* kraft */
+.frame.v4{--pd:.3rem}.frame.v4 .cap{font-size:1.2rem;padding-top:.4rem}                    /* thin */
+.frame.v5{border-radius:16px}.frame.v5 img{border-radius:9px}.frame.v5::after{border-radius:16px}   /* rounded */
+.frame.v6{--pc:color-mix(in srgb,var(--cc,#f2c6d0) var(--ccm,100%),#1a1712);--pd:.85rem}  /* coloured paper */
+.frame.v7{--pc:#27324a;--capc:#e8e3d6;--tex:var(--grain)}.frame.v7 img{border:7px solid #f1ecdf;box-sizing:border-box}   /* dark matte */
+.frame.v8{padding-bottom:.6rem;clip-path:polygon(-30% -60%,130% -60%,130% 98%,115% 100%,100% 97%,88% 100%,75% 97.5%,62% 100%,50% 97%,38% 100%,25% 97.5%,12% 100%,0 97%,-30% 98%)}  /* torn edge */
+
+/* ---------- favourite heart ---------- */
+.heart{position:absolute;top:22px;right:8px;z-index:3;width:2.75rem;height:2.75rem;display:grid;place-items:center;border:0;border-radius:50%;background:var(--hbg);color:#7a746a;font-size:1.35rem;line-height:1;cursor:pointer;opacity:0;transform:scale(.7);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+.print:hover .heart,.heart:focus-visible,.heart[aria-pressed="true"]{opacity:1;transform:scale(1)}
+.heart[aria-pressed="true"]{color:#c0443a}
+.heart.pop{animation:pop .45s}
+@media (hover:none){.heart{opacity:1;transform:none}}
+@media (max-width:640px){.heart{top:20px;right:6px}}
